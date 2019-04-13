@@ -12,8 +12,8 @@ from aliyunsdkalidns.request.v20150109.UpdateDomainRecordRequest import UpdateDo
 from aliyunsdkalidns.request.v20150109.DescribeDomainRecordsRequest import DescribeDomainRecordsRequest
 
 
-domain = "daha.wiki"
-rr = "nas"
+domain = "You Domain" # map.baidu.com domain = baidu.com
+rr = "You RR" # map.baidu.com RR = map
 client = AcsClient('<accessKeyId>', '<accessSecret>', 'cn-hangzhou')
 
 
