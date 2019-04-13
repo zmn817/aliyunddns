@@ -4,6 +4,7 @@
 import os
 import json
 import urllib.request
+import logging
 from aliyunsdkcore.client import AcsClient
 from aliyunsdkcore.acs_exception.exceptions import ClientException
 from aliyunsdkcore.acs_exception.exceptions import ServerException
@@ -13,7 +14,7 @@ from aliyunsdkalidns.request.v20150109.DescribeDomainRecordsRequest import Descr
 
 domain = "daha.wiki"
 rr = "nas"
-client = AcsClient('LTAIN5fW02KpkQNr', 'mFhCLjsVbzpqNQGuAYBN6Qe8JLVhCH', 'cn-hangzhou')
+client = AcsClient('<accessKeyId>', '<accessSecret>', 'cn-hangzhou')
 
 
 # python2:  print(response)
@@ -42,14 +43,19 @@ def Dns():
     request = UpdateDomainRecordRequest()
     request.set_accept_format('json')
 
+    logging.info("Getting RecordId....")
     record = getRecord()
     recordId = record['RecordId']
+    logging.info("RecordId:%s" % recordId)
 
+    logging.info("Getting IP....")
     ip = getIP()
+    logging.info("IP:%s" % ip)
 
     if ip == record['Value']:
-        print("IP一致无需更新")
+        return "IP consistency does not need to be updated."
 
+    logging.info("Updating DNS....")
     request.set_Value(ip)
     request.set_RecordId(recordId)
     request.set_RR(rr)
@@ -60,7 +66,8 @@ def Dns():
 
 if __name__ == "__main__":
     try:
+        logging.basicConfig(filename='log_examp.log', level=logging.INFO)
         result = Dns()
-        print(result)
+        logging.info(result)
     except (ServerException, ClientException) as reason:
-        print(reason.get_error_msg())
+        logging.info(reason.get_error_msg())
