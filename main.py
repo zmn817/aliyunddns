@@ -33,7 +33,8 @@ def getRecord():
 
 
 def getIP():
-    ip = json.load(urllib.request.urlopen('http://jsonip.com'))['ip']
+    html = urllib.request.urlopen('http://jsonip.com').read()
+    ip = json.loads(html.decode('utf-8'))['ip']
     return ip
 
 
@@ -64,7 +65,7 @@ def Dns():
 
 if __name__ == "__main__":
     try:
-        result = Dns()
+        result = getIP()
         print(result)
     except (ServerException, ClientException) as reason:
         print("失败！原因为")
