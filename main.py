@@ -42,24 +42,19 @@ def Dns():
     request = UpdateDomainRecordRequest()
     request.set_accept_format('json')
 
-    print('正在获取RecordId……')
     record = getRecord()
     recordId = record['RecordId']
 
-    print("获取成功:%s" % recordId)
-    print("获取本机IP……")
     ip = getIP()
-    print("获取成功:%s" % ip)
 
     if ip == record['Value']:
-        return print("IP一致无需更新")
+        print("IP一致无需更新")
 
     request.set_Value(ip)
     request.set_RecordId(recordId)
     request.set_RR(rr)
     request.set_Type("A")
 
-    print("正在更新DNS……")
     response = client.do_action_with_exception(request)
     return json.loads(response.decode("UTF-8"))
 
@@ -68,5 +63,4 @@ if __name__ == "__main__":
         result = Dns()
         print(result)
     except (ServerException, ClientException) as reason:
-        print("失败！原因为")
         print(reason.get_error_msg())
