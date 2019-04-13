@@ -65,7 +65,7 @@ def Dns():
 
 if __name__ == "__main__":
     try:
-        result = getIP()
+        result = Dns()
         print(result)
     except (ServerException, ClientException) as reason:
         print("失败！原因为")
